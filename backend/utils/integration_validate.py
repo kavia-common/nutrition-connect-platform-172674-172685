@@ -136,7 +136,7 @@ ensure_user("client", is_staff=False, role="client")
 print("OK")
 """
     res = run(
-        f'''. .venv/bin/activate && python manage.py shell -c "{script.replace('"', '\\"').replace('\n',';')}"''',
+        f'''. .venv/bin/activate && python manage.py shell -c "{script.replace('"', '\\"').replace('\n', ';')}"''',
         env=env,
         cwd=BASE_DIR,
     )  # noqa: E501
@@ -243,7 +243,7 @@ def main():
         "DB_USER": db_user,
         "DB_PASSWORD": db_password,
         # Django runserver/hosts
-        "ALLOWED_HOSTS": f"localhost,127.0.0.1,testserver",
+        "ALLOWED_HOSTS": "localhost,127.0.0.1,testserver",
         "DEBUG": "True",
     })
 
@@ -267,7 +267,18 @@ def main():
     ready = wait_until(lambda: port_open(bind_host, http_port), timeout=25)
     ok_h, health_out = (False, "server not up")
     if ready:
-        ok_h, health_out = health(base_url)
+        # After port opens, wait until /api/health returns 200 to ensure Django is fully ready
+        log("Waiting for /api/health readiness...")
+
+        def health_ready():
+            ok, _ = health(base_url)
+            return ok
+
+        # Allow up to 25s for healthready in addition to port open
+        if wait_until(health_ready, timeout=25, interval=0.5):
+            ok_h, health_out = health(base_url)
+        else:
+            ok_h, health_out = health(base_url)
     results.append(("API_HEALTH", ok_h, health_out))
 
     # 3) Supabase JWKS reachability
