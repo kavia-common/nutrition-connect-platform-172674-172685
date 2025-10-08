@@ -27,6 +27,11 @@ Do not include service role key in source control:
 - curl -i http://localhost:8000/health/  # expect 200 and {"message":"Server is up!"}
 - curl -i http://localhost:8000/api/health/  # also available under /api
 
+If the database service (platform_database) is not reachable yet, you can still verify health endpoints without a DB:
+- python manage.py runserver_nodb 0.0.0.0:8000
+- curl -i http://localhost:8000/health/
+- curl -i http://localhost:8000/api/health/
+
 ## Automated Integration Validation
 
 A helper script is available to validate DB connectivity/migrations, API health, Supabase JWKS reachability, auth, CRUD, and WebSocket connectivity.

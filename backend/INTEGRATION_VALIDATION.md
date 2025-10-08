@@ -19,6 +19,11 @@ Expected: migrations complete without error.
 - curl -i http://localhost:8000/health/
 Expected: HTTP/1.1 200 with JSON {"message":"Server is up!"}
 
+Tip (DB not available): If platform_database is not reachable, use a no-DB server for health checks:
+- python manage.py runserver_nodb 0.0.0.0:8000
+- curl -i http://localhost:8000/health/
+- curl -i http://localhost:8000/api/health/
+
 3) Validate Supabase Auth flow enabled and JWKS reachable
 - Ensure in backend .env: USE_SUPABASE_AUTH=true
 - Ensure SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_JWKS_URL are set
