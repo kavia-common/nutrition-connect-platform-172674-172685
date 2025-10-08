@@ -20,10 +20,12 @@ Do not include service role key in source control:
 - pip install --upgrade pip
 - pip install -r requirements.txt
 - cp .env.example .env
-- Ensure platform_database is running on 127.0.0.1:5002 with db=nc_app user=nc_app password=nc_app
+- Preview default: DB is available at service `platform_database:5001` (already reflected in .env.example)
+  - For local dev, set DB_HOST=127.0.0.1 and DB_PORT=5002 in .env
 - python manage.py migrate
 - python manage.py runserver 0.0.0.0:8000
-- curl -i http://localhost:8000/api/health/  # expect 200 and {"message":"Server is up!"}
+- curl -i http://localhost:8000/health/  # expect 200 and {"message":"Server is up!"}
+- curl -i http://localhost:8000/api/health/  # also available under /api
 
 ## Automated Integration Validation
 

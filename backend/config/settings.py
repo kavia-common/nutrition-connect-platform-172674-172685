@@ -82,12 +82,13 @@ CHANNEL_LAYERS = {
 }
 
 # Database (PostgreSQL via env)
-# Defaults point to platform_database running at 127.0.0.1:5002 with nc_app creds as per integration checklist.
+# Defaults: preview uses service 'platform_database' on port 5001.
+# For local development per README, override DB_HOST=127.0.0.1 and DB_PORT=5002.
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "HOST": os.getenv("DB_HOST", "127.0.0.1"),
-        "PORT": os.getenv("DB_PORT", "5002"),
+        "HOST": os.getenv("DB_HOST", "platform_database"),
+        "PORT": os.getenv("DB_PORT", "5001"),
         "NAME": os.getenv("DB_NAME", "nc_app"),
         "USER": os.getenv("DB_USER", "nc_app"),
         "PASSWORD": os.getenv("DB_PASSWORD", "nc_app"),

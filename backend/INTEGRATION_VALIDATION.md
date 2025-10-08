@@ -1,11 +1,12 @@
 Integration Validation Checklist
 
 Prereqs:
-- PostgreSQL from platform_database is running and listening on port 5002.
+- PostgreSQL from platform_database is running and listening on port 5001 (preview default). For local dev use port 5002 on 127.0.0.1.
   - Quick start: from nutrition-connect-platform-172674-172683/platform_database run: ./startup.sh
-  - Verify: pg_isready -h 127.0.0.1 -p 5002 -U nc_app
+  - Verify (preview): pg_isready -h platform_database -p 5001 -U nc_app
+  - Verify (local): pg_isready -h 127.0.0.1 -p 5002 -U nc_app
 
-1) Backend connects to DB on port 5002 and runs migrations
+1) Backend connects to DB (default preview: platform_database:5001) and runs migrations
 - cd nutrition-connect-platform-172674-172685/backend
 - cp .env.example .env (fill Supabase fields)
 - python -m venv .venv && . .venv/bin/activate
@@ -13,9 +14,9 @@ Prereqs:
 - python manage.py migrate
 Expected: migrations complete without error.
 
-2) Verify /api/health returns 200
+2) Verify /health (or /api/health) returns 200
 - python manage.py runserver 0.0.0.0:8000
-- curl -i http://localhost:8000/api/health/
+- curl -i http://localhost:8000/health/
 Expected: HTTP/1.1 200 with JSON {"message":"Server is up!"}
 
 3) Validate Supabase Auth flow enabled and JWKS reachable

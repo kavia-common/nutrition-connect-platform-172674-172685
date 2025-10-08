@@ -116,8 +116,18 @@ class RefreshView(TokenRefreshView):
 
 # Basic health endpoint
 @api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+# PUBLIC_INTERFACE
 def health(request):
-    """Healthcheck returning 200 OK with message."""
+    """Healthcheck returning 200 OK with JSON payload.
+
+    Purpose: Lightweight readiness/liveness probe that does not touch the database
+    or require authentication. Useful for health checks, preview environments, and
+    load balancers.
+
+    Returns:
+        200 OK with {"message": "Server is up!"} when the service is responsive.
+    """
     return Response({"message": "Server is up!"})
 
 
