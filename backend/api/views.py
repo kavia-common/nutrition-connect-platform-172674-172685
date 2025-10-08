@@ -75,7 +75,13 @@ def _verify_supabase_jwt(token: str) -> bool:
         for key in jwks.get("keys", []):
             if key.get("kid") == unverified_header.get("kid"):
                 public_key = jwt.algorithms.RSAAlgorithm.from_jwk(json.dumps(key))
-                jwt.decode(token, public_key, algorithms=[unverified_header.get("alg", "RS256")], audience=None, options={"verify_aud": False})
+                jwt.decode(
+                    token,
+                    public_key,
+                    algorithms=[unverified_header.get("alg", "RS256")],
+                    audience=None,
+                    options={"verify_aud": False},
+                )
                 return True
     except Exception as e:
         logger.info("Supabase JWT verification failed: %s", e)

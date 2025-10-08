@@ -7,6 +7,7 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework.permissions import AllowAny
 
+
 class Command(BaseCommand):
     def handle(self, *args, **options):
         factory = RequestFactory()

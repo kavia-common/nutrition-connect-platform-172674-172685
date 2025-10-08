@@ -8,10 +8,12 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from django.views.decorators.csrf import csrf_exempt
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
 ]
+
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -23,6 +25,7 @@ schema_view = get_schema_view(
    permission_classes=(permissions.AllowAny,),
 )
 
+
 def get_full_url(request):
     scheme = request.scheme
     host = request.get_host()
@@ -32,6 +35,7 @@ def get_full_url(request):
         host = f"{host}:{forwarded_port}"
 
     return f"{scheme}://{host}"
+
 
 @csrf_exempt
 def dynamic_schema_view(request, *args, **kwargs):
@@ -46,6 +50,7 @@ def dynamic_schema_view(request, *args, **kwargs):
         url=url,
     )
     return view.with_ui('swagger', cache_timeout=0)(request)
+
 
 urlpatterns += [
     re_path(r'^docs/$', dynamic_schema_view, name='schema-swagger-ui'),

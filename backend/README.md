@@ -13,3 +13,25 @@ Storage (kept disabled):
 
 Do not include service role key in source control:
 - SUPABASE_SERVICE_ROLE_KEY=
+
+## Automated Integration Validation
+
+A helper script is available to validate DB connectivity/migrations, API health, Supabase JWKS reachability, auth, CRUD, and WebSocket connectivity.
+
+Quickstart:
+- python -m venv .venv && . .venv/bin/activate
+- pip install --upgrade pip && pip install -r requirements.txt
+- export DB_HOST=127.0.0.1 DB_PORT=5002 DB_NAME=nc_app DB_USER=nc_app DB_PASSWORD=nc_app
+- export USE_SUPABASE_AUTH=true
+- export SUPABASE_JWKS_URL=https://nznsixbvloaorucujewu.supabase.co/auth/v1/.well-known/jwks.json
+- python utils/integration_validate.py
+
+The script will:
+- run migrations (step 1),
+- start runserver and check /api/health (step 2),
+- check JWKS (step 3),
+- seed users and perform JWT login and basic Foods CRUD (steps 4-5),
+- start Daphne and test WebSocket chat echo (step 6),
+- print a summary and targeted suggestions (step 7).
+
+Exit code is non-zero if any checks fail.

@@ -50,7 +50,16 @@ class AuthAndRoleTests(APITestCase):
         # coach can create plan
         token = self.auth_token("coach")
         client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
-        resp = client.post("/api/plans/", {"name": "Plan1", "description": "", "coach": self.coach.id, "client": self.client_user.id}, format="json")
+        resp = client.post(
+            "/api/plans/",
+            {
+                "name": "Plan1",
+                "description": "",
+                "coach": self.coach.id,
+                "client": self.client_user.id,
+            },
+            format="json",
+        )
         self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
         self.assertTrue(Plan.objects.filter(name="Plan1").exists())
 
