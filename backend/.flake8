@@ -1,5 +1,18 @@
 [flake8]
-exclude = .venv,venv,env,**/.venv/**,**/site-packages/**
+# Keep project-wide max line length at 120
 max-line-length = 120
+
+# Common stylistic ignores that often conflict with Black/PEP8 nuances (optional for future)
+extend-ignore = E203, W503
+
+# Do not enforce line length in auto-generated Django migrations
 per-file-ignores =
-    utils/integration_validate.py:F401
+    api/migrations/*.py: E501
+
+# Exclude typical non-source folders
+exclude =
+    .venv,
+    venv,
+    env,
+    __pycache__,
+    staticfiles

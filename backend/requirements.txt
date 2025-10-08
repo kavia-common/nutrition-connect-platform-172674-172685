@@ -1,4 +1,5 @@
 # Core framework
+# Note: Pins chosen to have manylinux wheels on common preview builders (Python 3.11/3.12)
 Django==5.2
 asgiref==3.8.1
 sqlparse==0.5.3
@@ -31,6 +32,10 @@ redis==5.1.1
 # Env + HTTP
 python-dotenv==1.0.1
 requests==2.32.5
+
+# Crypto (ensure wheels; avoid building from source on preview builders)
+# cryptography 42.x ships manylinux wheels for py3.11/3.12 and avoids legacy OpenSSL bindings
+cryptography>=42,<43
 
 # Dev/test helpers and linters (kept pinned)
 flake8==7.2.0
