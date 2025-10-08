@@ -1,26 +1,46 @@
-asgiref==3.8.1
+# Core framework
 Django==5.2
+asgiref==3.8.1
+sqlparse==0.5.3
+pytz==2025.2
+
+# REST + filters + docs
 djangorestframework==3.16.0
-djangorestframework-simplejwt==5.3.1
-channels==4.1.0
-psycopg2-binary==2.9.9
 django-filter==24.3
 drf-yasg==1.21.10
+uritemplate==4.1.1
+PyYAML==6.0.2
+
+# Auth (JWT)
+djangorestframework-simplejwt==5.3.1
+pyjwt==2.9.0
+
+# Channels (ASGI websockets) + ASGI server
+channels==4.1.0
+daphne==4.1.2
+
+# Database driver (prebuilt wheels to avoid system headers)
+psycopg2-binary==2.9.9
+
+# CORS
+django-cors-headers==4.7.0
+
+# Optional redis client (if later using Redis channel layer)
+redis==5.1.1
+
+# Env + HTTP
+python-dotenv==1.0.1
+requests==2.32.5
+
+# Dev/test helpers and linters (kept pinned)
 flake8==7.2.0
-inflection==0.5.1
-iniconfig==2.1.0
+pycodestyle==2.13.0
+pyflakes==3.3.2
 mccabe==0.7.0
 packaging==24.2
 pluggy==1.5.0
-pycodestyle==2.13.0
-pyflakes==3.3.2
-pytz==2025.2
-PyYAML==6.0.2
-sqlparse==0.5.3
-uritemplate==4.1.1
-django-cors-headers==4.7.0
-redis==5.1.1
-pyjwt==2.9.0
-python-dotenv==1.0.1
-requests==2.32.5
+iniconfig==2.1.0
+
+# For websocket validation script
 websocket-client==1.8.0
+inflection==0.5.1

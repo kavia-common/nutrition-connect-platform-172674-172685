@@ -3,9 +3,9 @@
 Configure a `.env` file based on `.env.example`. Required variables to enable Supabase Auth:
 
 - USE_SUPABASE_AUTH=true
-- SUPABASE_URL=https://nznsixbvloaorucujewu.supabase.co
+- SUPABASE_URL=https://<your-project>.supabase.co
 - SUPABASE_ANON_KEY=<TO_BE_FILLED_BY_USER_OR_DEPLOYER>
-- SUPABASE_JWKS_URL=https://nznsixbvloaorucujewu.supabase.co/auth/v1/.well-known/jwks.json
+- SUPABASE_JWKS_URL=https://<your-project>.supabase.co/auth/v1/.well-known/jwks.json
 
 Storage (kept disabled):
 - SUPABASE_STORAGE_ENABLED=false
@@ -13,6 +13,17 @@ Storage (kept disabled):
 
 Do not include service role key in source control:
 - SUPABASE_SERVICE_ROLE_KEY=
+
+## Install and Run
+
+- python -m venv .venv && . .venv/bin/activate
+- pip install --upgrade pip
+- pip install -r requirements.txt
+- cp .env.example .env
+- Ensure platform_database is running on 127.0.0.1:5002 with db=nc_app user=nc_app password=nc_app
+- python manage.py migrate
+- python manage.py runserver 0.0.0.0:8000
+- curl -i http://localhost:8000/api/health/  # expect 200 and {"message":"Server is up!"}
 
 ## Automated Integration Validation
 
@@ -23,13 +34,13 @@ Quickstart:
 - pip install --upgrade pip && pip install -r requirements.txt
 - export DB_HOST=127.0.0.1 DB_PORT=5002 DB_NAME=nc_app DB_USER=nc_app DB_PASSWORD=nc_app
 - export USE_SUPABASE_AUTH=true
-- export SUPABASE_JWKS_URL=https://nznsixbvloaorucujewu.supabase.co/auth/v1/.well-known/jwks.json
+- export SUPABASE_JWKS_URL=https://<your-project>.supabase.co/auth/v1/.well-known/jwks.json
 - python utils/integration_validate.py
 
 The script will:
 - run migrations (step 1),
 - start runserver and check /api/health (step 2),
-- check JWKS (step 3),
+- check JWKS (step 3 - non-blocking),
 - seed users and perform JWT login and basic Foods CRUD (steps 4-5),
 - start Daphne and test WebSocket chat echo (step 6),
 - print a summary and targeted suggestions (step 7).

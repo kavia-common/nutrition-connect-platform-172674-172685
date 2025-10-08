@@ -53,13 +53,16 @@ class IsClient(permissions.BasePermission):
             return False
 
 
-# Supabase JWT helper (optional)
+# Supabase JWT helper (optional, non-blocking)
+# This helper is designed to fail gracefully: JWKS fetch or verification failures
+# do NOT prevent API startup or local JWT auth from functioning.
 def _fetch_jwks(jwks_url: str) -> Optional[dict]:
     try:
         resp = requests.get(jwks_url, timeout=5)
         if resp.ok:
             return resp.json()
     except Exception as e:
+        # Keep warnings low-noise; do not raise
         logger.warning("JWKS fetch failed: %s", e)
     return None
 
